@@ -963,9 +963,8 @@ public class MusicServiceImpl implements MusicService {
 
         while (failCount < jusicProperties.getRetryCount()) {
             try {
-                response = Unirest.get(jusicProperties.getMusicServeDomain() + "/song/url?br=128000&id=" + musicId + "")
+                response = Unirest.get(jusicProperties.getMusicServeDomain() + "/song/url?br=999000&id=" + musicId + "")
                         .asString();
-
                 if (response.getStatus() != 200) {
                     failCount++;
                 } else {
