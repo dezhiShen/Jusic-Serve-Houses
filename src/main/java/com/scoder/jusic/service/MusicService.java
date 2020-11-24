@@ -1,6 +1,5 @@
 package com.scoder.jusic.service;
 
-import com.scoder.jusic.common.page.HulkPage;
 import com.scoder.jusic.common.page.Page;
 import com.scoder.jusic.model.Music;
 import com.scoder.jusic.model.MusicUser;
@@ -21,7 +20,7 @@ public interface MusicService {
      * @param request   music info
      * @return music info
      */
-    Music toPick(String sessionId, Music request,String houseId, String source);
+    Music toPick(String sessionId, Music request, String houseId, String source);
 
     /**
      * 切歌
@@ -39,16 +38,17 @@ public interface MusicService {
 
     List<Music> getPickListNoPlaying(String houseId);
 
-    LinkedList<Music> getSortedPickList(List<Music> musicList,String houseId);
+    LinkedList<Music> getSortedPickList(List<Music> musicList, String houseId);
 
     Music getPlaying(String houseId);
+
     /**
      * 修改点歌列表顺序
      *
      * @param musicList -
      * @return -
      */
-    Long modifyPickOrder(LinkedList<Music> musicList,String houseId);
+    Long modifyPickOrder(LinkedList<Music> musicList, String houseId);
 
     /**
      * 投票
@@ -56,7 +56,7 @@ public interface MusicService {
      * @param sessionId session id
      * @return 0：投票失败，已经参与过。1：投票成功
      */
-    Long vote(String sessionId,String houseId);
+    Long vote(String sessionId, String houseId);
 
     /**
      * 从集合中获取参与投票的人数
@@ -66,50 +66,28 @@ public interface MusicService {
     Long getVoteCount(String houseId);
 
     /**
-     * get music
+     * 获取音乐
+     * </p>
+     * 外链, 歌词, 艺人, 专辑, 专辑图片, 时长
      *
-     * @param keyword keyword
-     * @return music
+     * @param condition 查询条件 source必填 name/id 二选一
+     * @return
      */
-    Music getMusic(String keyword);
-
-    Music getQQMusic(String keyword);
-    Music getWYMusic(String keyword);
-
-    Music getLZMusic(Integer index);
-
-    Music getWYMusicById(String id);
-
-    Music getQQMusicById(String id);
-
-    Music getMGMusic(String keyword);
-
-    Music getMGMusicById(String id);
-
-    /**
-     * get music url
-     *
-     * @param musicId music id
-     * @return url
-     */
-    String getMusicUrl(String musicId);
-
-    String getQQMusicUrl(String musicId);
-
-    String getMGMusicUrl(String musicId,String musicName);
+    Music getMusic(Music condition);
 
     /**
      * 删除音乐
      *
      * @param music music
      */
-    boolean deletePickMusic(Music music,String houseId);
+    boolean deletePickMusic(Music music, String houseId);
+
     /**
      * top pick music
      *
      * @param music -
      */
-    void topPickMusic(Music music,String houseId);
+    void topPickMusic(Music music, String houseId);
 
     /**
      * black
@@ -117,7 +95,7 @@ public interface MusicService {
      * @param id music id
      * @return -
      */
-    Long black(String id,String houseId);
+    Long black(String id, String houseId);
 
     /**
      * un black
@@ -125,7 +103,7 @@ public interface MusicService {
      * @param id music id
      * @return -
      */
-    Long unblack(String id,String houseId);
+    Long unblack(String id, String houseId);
 
     /**
      * is black?
@@ -133,7 +111,7 @@ public interface MusicService {
      * @param id music id
      * @return -
      */
-    boolean isBlack(String id,String houseId);
+    boolean isBlack(String id, String houseId);
 
     /**
      * is picked ?
@@ -141,32 +119,87 @@ public interface MusicService {
      * @param id music id
      * @return
      */
-    boolean isPicked(String id,String houseId);
+    boolean isPicked(String id, String houseId);
 
-    Object[] getMusicById(String id,String houseId);
+    /**
+     * @param id
+     * @param houseId
+     * @return
+     */
+    Object[] getMusicById(String id, String houseId);
 
-        /**
-         * search music
-         * @param music music
-         * @param hulkPage page
-         * @return list
-         */
-    Page<List<Music>> search(Music music, HulkPage hulkPage);
+    /**
+     * search music
+     *
+     * @param music    music
+     * @param hulkPage page
+     * @return list
+     */
+    Page<List<Music>> searchMusic(Music music, Page<List<Music>> hulkPage);
 
+    /**
+     * 清除播放列表
+     *
+     * @param houseId
+     * @return
+     */
     boolean clearPlayList(String houseId);
 
+    /**
+     * @param houseId
+     * @return
+     */
     String showBlackMusic(String houseId);
 
-    Page<List<SongList>> search(SongList songList, HulkPage hulkPage);
+    /**
+     * 搜索歌单
+     *
+     * @param songList 列表
+     * @param hulkPage 分页查询条件
+     * @return
+     */
+    Page<List<SongList>> searchSongList(SongList songList, Page<List<SongList>> hulkPage);
 
-    Page<List<MusicUser>> search(MusicUser musicUser, HulkPage hulkPage);
+    /**
+     * 搜索用户
+     *
+     * @param musicUser
+     * @param hulkPage
+     * @return
+     */
+    Page<List<MusicUser>> searchMusicUser(MusicUser musicUser, Page<List<MusicUser>> hulkPage);
 
+    /**
+     * 删除默认默认播放列表
+     *
+     * @param houseId 房间号
+     * @return
+     */
     boolean clearDefaultPlayList(String houseId);
 
-    Integer addDefaultPlayList(String houseId,String[] playlistIds,String source);
+    /**
+     * 添加默认播放列表
+     *
+     * @param houseId     房间号
+     * @param playlistIds 播放列表id
+     * @param source      源
+     * @return
+     */
+    Integer addDefaultPlayList(String houseId, String[] playlistIds, String source);
 
+    /**
+     * 获取播放列表的大小
+     *
+     * @param houseId
+     * @return
+     */
     Long playlistSize(String houseId);
 
-    void updateMusicUrl(Music result);
+    /**
+     * 更新 music 中的url,source和id 必填
+     *
+     * @param music
+     */
+    void updateMusicUrl(Music music);
 
-    }
+}
